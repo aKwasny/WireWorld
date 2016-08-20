@@ -66,7 +66,7 @@ public class InputOutput {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File " + file + " does not exist!");
+            System.err.println(e + " File " + file + " does not exist!");
         } finally {
             if (buffer != null) {
                 buffer.close();
