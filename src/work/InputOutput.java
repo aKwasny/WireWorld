@@ -14,12 +14,14 @@ public class InputOutput {
     public static Community load(File file) {
         Community community = null;
         Scanner in = null;
-        String line = null;
+        String line;
         String[] splited;
+        int lineCounter = 0;
         try {
             in = new Scanner(file);
             line = in.nextLine();
             splited = line.split(" ");
+
 
             try {
                 community = new Community(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]));
@@ -34,12 +36,13 @@ public class InputOutput {
             while (in.hasNext()) {
                 try {
                     line = in.nextLine();
+                    lineCounter += 1;
                     splited = line.split("\\s+");
                     community.setElementOnBoard(Integer.parseInt(splited[1]) - 1, Integer.parseInt(splited[2]) - 1, ElementFactory.buildElement(splited[0]));
                 } catch (NumberFormatException ex) {
-                    System.err.println(ex + " Line " + line.toString() + " ignored. Given arguments are not digits.");
+                    System.err.println(ex + " Line " + lineCounter + " ignored. Given arguments are not digits.");
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.err.println(ex + " Line " + line.toString() + " ignored. Too few arguments."); //TODO
+                    System.err.println(ex + " Line " + lineCounter + " ignored. Too few arguments.");
                 }
             }
 
@@ -57,11 +60,11 @@ public class InputOutput {
         PrintWriter buffer = null;
         try {
             buffer = new PrintWriter(file);
-            buffer.println(community.getHeight() + " " + community.getWidth() + "\n");
+            buffer.println(community.getHeight() + " " + community.getWidth());
             for (int i = 0; i < community.getHeight(); i++) {
                 for (int j = 0; j < community.getWidth(); j++) {
                     if (!community.getCell(i, j).getState().equals("Isolator")) {
-                        buffer.println(community.getCell(i, j).getState() + " " + (i + 1) + " " + (j + 1) + "\n");
+                        buffer.println(community.getCell(i, j).getState() + " " + (i + 1) + " " + (j + 1));
                     }
                 }
             }
